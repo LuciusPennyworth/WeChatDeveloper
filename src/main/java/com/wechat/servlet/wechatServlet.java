@@ -58,11 +58,10 @@ public class wechatServlet extends HttpServlet {
                 }else{
                     message=MessageUtil.initText(ToUserName,FromUserName,"伙计,你玩这么久,难道你考试都过了么");
                 }
-
             }else if( MsgType.equals(MessageUtil.MESSAGE_EVENTT) ){
                 String eventType=map.get("Event");
                 if ( eventType.equals((MessageUtil.MESSAGE_SUBSCRIBE)) ){
-                    message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.menuText());
+                    message=MessageUtil.initText(ToUserName,FromUserName,"欢迎你的关注，请回复?获取提示");
                 }
             }
             out.print(message);
