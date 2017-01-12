@@ -48,15 +48,22 @@ public class wechatServlet extends HttpServlet {
 
             String message=null;
             PrintWriter out=resp.getWriter();
-            if (MsgType.equals("text")){
-                TextMessage textMessage=new TextMessage();
-                textMessage.setFromUserName(ToUserName);
-                textMessage.setToUserName(FromUserName);
-                textMessage.setCreateTime(new Date().getTime());
-                textMessage.setMsgType("text");
-                textMessage.setContent("您发送的是:"+Content);
-                message=MessageUtil.textMsgToXML(textMessage);
-                System.out.println(message);
+            if (MsgType.equals(MessageUtil.MESSAGE_TEXT)){
+                if (Content.equals("1")){
+                    message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.firstMenu());
+                }else if (Content.equals("2")){
+                    message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.secondMenu());
+                }else if (Content.equals("?") || Content.equals("？") ){
+                    message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.menuText());
+                }else{
+                    message=MessageUtil.initText(ToUserName,FromUserName,"伙计,你玩这么久,难道你考试都过了么");
+                }
+
+            }else if( MsgType.equals(MessageUtil.MESSAGE_EVENTT) ){
+                String eventType=map.get("Event");
+                if ( eventType.equals((MessageUtil.MESSAGE_SUBSCRIBE)) ){
+                    message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.menuText());
+                }
             }
             out.print(message);
         } catch (Exception e) {
