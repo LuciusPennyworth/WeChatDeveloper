@@ -1,6 +1,8 @@
 package com.wechat.util;
 
 import com.thoughtworks.xstream.XStream;
+import com.wechat.pojo.News;
+import com.wechat.pojo.NewsMessage;
 import com.wechat.pojo.TextMessage;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -8,10 +10,7 @@ import org.dom4j.io.SAXReader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: Matt
@@ -22,7 +21,8 @@ import java.util.Map;
 public class MessageUtil {
 
     public static final String MESSAGE_TEXT="text";
-    public static final String MESSAGE_IMAGE="image";
+    public static final String MESSAGE_NEWS="news";
+    public static final String MESSAGE_IMAGE= "WEB-INF/image";
     public static final String MESSAGE_VOICE="voice";
     public static final String MESSAGE_VIDEO="video";
     public static final String MESSAGE_LINKT="link";
@@ -87,15 +87,61 @@ public class MessageUtil {
         return sBuffer.toString();
     }
 
+    /**
+     * 公众号介绍
+     */
     public static String firstMenu(){
         StringBuffer sBuffer=new StringBuffer();
         sBuffer.append("这个公众号可能是假的");
         return sBuffer.toString();
     }
 
+    /**
+     * 个人介绍
+     */
     public static String secondMenu(){
         StringBuffer sBuffer=new StringBuffer();
         sBuffer.append("作者本人也可能是假的");
         return sBuffer.toString();
+    }
+
+    /**
+    *将图文消息转换为xml文件
+    */
+    public static String newsMsgToXML(NewsMessage newsMessage) {
+        XStream xStream = new XStream();
+        xStream.alias("xml",newsMessage.getClass());
+        xStream.alias("item",new News().getClass());
+        return xStream.toXML(newsMessage);
+    }
+
+    /**
+     *创建一个图文消息列表
+     */
+    public static String initNewsMessage(String toUserName,String fromUserName){
+        NewsMessage newsMessage=new NewsMessage();
+        List<News> newsList=new LinkedList<News>();
+
+        News news=new News();
+        news.setTitle("记一场假的面试");
+        news.setPicUrl("http://mattchenvip.viphk.ngrok.org/image/mianshi.jpg");
+        if (fromUserName.equals("gh_6f2be558d5a1")){
+            news.setDescription("x艺,雷猴啊");
+        }else {
+            news.setDescription("you lead me down ,to the ocean");
+        }
+        news.setUrl("wwww.baidu.com");
+
+        newsList.add(news);
+
+        newsMessage.setFromUserName(toUserName);
+        newsMessage.setToUserName(fromUserName);
+        newsMessage.setArticles(newsList);
+        newsMessage.setArticleCount(newsList.size());
+        newsMessage.setCreateTime(new Date().getTime());
+        newsMessage.setMsgType(MessageUtil.MESSAGE_NEWS);
+
+        return MessageUtil.newsMsgToXML(newsMessage);
+
     }
 }
