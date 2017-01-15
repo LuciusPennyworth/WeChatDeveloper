@@ -1,4 +1,4 @@
-package com.wechat.pojo;
+package com.wechat.Message;
 
 /**
  * User: Matt

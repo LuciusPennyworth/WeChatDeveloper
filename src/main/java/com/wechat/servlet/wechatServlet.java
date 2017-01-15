@@ -1,6 +1,5 @@
 package com.wechat.servlet;
 
-import com.wechat.pojo.TextMessage;
 import com.wechat.util.CheckUtil;
 import com.wechat.util.MessageUtil;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -55,7 +53,10 @@ public class wechatServlet extends HttpServlet {
                     message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.secondMenu());
                 }else if (Content.equals("3")){
                     message=MessageUtil.initNewsMessage(ToUserName,FromUserName);
-                    //System.out.println(message);
+                    System.out.println(message);
+                }else if (Content.equals("4")){
+                    message=MessageUtil.initImageMessage(ToUserName,FromUserName);
+                    System.out.println(message);
                 }else if (Content.equals("?") || Content.equals("？") ){
                     message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.menuText());
                 }else{
@@ -68,6 +69,7 @@ public class wechatServlet extends HttpServlet {
                 }
             }
             out.print(message);
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

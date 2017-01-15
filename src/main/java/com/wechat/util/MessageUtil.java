@@ -1,9 +1,11 @@
 package com.wechat.util;
 
 import com.thoughtworks.xstream.XStream;
+import com.wechat.Message.ImageMessage;
+import com.wechat.pojo.Image;
 import com.wechat.pojo.News;
-import com.wechat.pojo.NewsMessage;
-import com.wechat.pojo.TextMessage;
+import com.wechat.Message.NewsMessage;
+import com.wechat.Message.TextMessage;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -22,7 +24,7 @@ public class MessageUtil {
 
     public static final String MESSAGE_TEXT="text";
     public static final String MESSAGE_NEWS="news";
-    public static final String MESSAGE_IMAGE= "WEB-INF/image";
+    public static final String MESSAGE_IMAGE= "image";
     public static final String MESSAGE_VOICE="voice";
     public static final String MESSAGE_VIDEO="video";
     public static final String MESSAGE_LINKT="link";
@@ -62,7 +64,7 @@ public class MessageUtil {
         return xStream.toXML(textMessage);
     }
 
-    /*
+    /**
     * 拼接文本消息
     * */
     public static String initText(String ToUserName,String FromUserName,String Content){
@@ -153,6 +155,35 @@ public class MessageUtil {
         newsMessage.setMsgType(MessageUtil.MESSAGE_NEWS);
 
         return MessageUtil.newsMsgToXML(newsMessage);
-
     }
+
+    /**
+     * 将图片消息组装为xml
+     * @param imageMessage
+     * @return
+     */
+    public static String ImageToXML(ImageMessage imageMessage){
+        XStream xStream=new XStream();
+        xStream.alias("xml",imageMessage.getClass());
+        return xStream.toXML(imageMessage);
+    }
+
+    /**
+     * 创建一个图片信息
+     */
+    public static String initImageMessage(String toUserName,String fromUserName){
+        ImageMessage imageMessage=new ImageMessage();
+        Image image=new Image();
+        image.setMediaId("T7cf3BDaCIy0b1INIRD74NMikor1abr6JohdUk2_n6n5Gze3ZDRjXkbcqlFOLber");
+
+        imageMessage.setImage(image);
+        imageMessage.setMsgType(MessageUtil.MESSAGE_IMAGE);
+        imageMessage.setFromUserName(toUserName);
+        imageMessage.setToUserName(fromUserName);
+        imageMessage.setCreateTime(new Date().getTime());
+
+        String message=ImageToXML(imageMessage);
+        return message;
+    }
+
 }

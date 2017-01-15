@@ -1,4 +1,6 @@
-package com.wechat.pojo;
+package com.wechat.Message;
+
+import com.wechat.pojo.News;
 
 import java.util.List;
 
