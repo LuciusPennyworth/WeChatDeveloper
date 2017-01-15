@@ -124,15 +124,26 @@ public class MessageUtil {
 
         News news=new News();
         news.setTitle("记一场假的面试");
-        news.setPicUrl("http://mattchenvip.viphk.ngrok.org/image/mianshi.jpg");
-        if (fromUserName.equals("gh_6f2be558d5a1")){
+        news.setPicUrl("http://mattchenvip.viphk.ngrok.org/html/image/mianshi.jpg");
+        if (fromUserName.equals("oXARvxMW_Tk2WF7ZcdX4h-x2q8Bc")){
             news.setDescription("x艺,雷猴啊");
         }else {
             news.setDescription("you lead me down ,to the ocean");
         }
         news.setUrl("wwww.baidu.com");
-
         newsList.add(news);
+
+        News news1=new News();
+        news1.setTitle("只有x艺能打开,不信试试");
+        news1.setPicUrl("http://mattchenvip.viphk.ngrok.org/html/image/github.jpg");
+
+        if ( fromUserName.equals("oXARvxMW_Tk2WF7ZcdX4h-x2q8Bc") ){
+            news1.setUrl("http://mattchenvip.viphk.ngrok.org/html/siyi.html");
+        }else {
+            news1.setUrl("http://mattchenvip.viphk.ngrok.org/html/error.html");
+        }
+
+        newsList.add(news1);
 
         newsMessage.setFromUserName(toUserName);
         newsMessage.setToUserName(fromUserName);
