@@ -142,6 +142,7 @@ public class WeChatUtil {
         String result = null;
 
         try {
+
             //定义BufferedReader输入流来读取URL响应
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = null;
@@ -158,7 +159,11 @@ public class WeChatUtil {
                 reader.close();
         }
         JSONObject json=JSONObject.parseObject(result);
-        String mediaId=json.getString("media_id");
+        System.out.println(json);
+        if (type.equals("thumb")){
+            type=type+"_media_id";
+        }
+        String mediaId=json.getString(type);
         return mediaId;
     }
 

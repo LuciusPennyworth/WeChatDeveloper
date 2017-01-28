@@ -2,7 +2,9 @@ package com.wechat.util;
 
 import com.thoughtworks.xstream.XStream;
 import com.wechat.Message.ImageMessage;
+import com.wechat.Message.MusicMessage;
 import com.wechat.pojo.Image;
+import com.wechat.pojo.Music;
 import com.wechat.pojo.News;
 import com.wechat.Message.NewsMessage;
 import com.wechat.Message.TextMessage;
@@ -26,6 +28,7 @@ public class MessageUtil {
     public static final String MESSAGE_NEWS="news";
     public static final String MESSAGE_IMAGE= "image";
     public static final String MESSAGE_VOICE="voice";
+    public static final String MESSAGE_MUSIC="music";
     public static final String MESSAGE_VIDEO="video";
     public static final String MESSAGE_LINKT="link";
     public static final String MESSAGE_LOCATION="location";
@@ -185,5 +188,31 @@ public class MessageUtil {
         String message=ImageToXML(imageMessage);
         return message;
     }
+
+    public static String musicToXML(MusicMessage musicMessage){
+        XStream xStream=new XStream();
+        xStream.alias("xml",musicMessage.getClass());
+        return xStream.toXML(musicMessage);
+    }
+
+    public static String initMusicMessage(String toUserName,String fromUserName){
+        MusicMessage musicMessage=new MusicMessage();
+        Music music=new Music();
+
+        music.setDescription("巴赫");
+        music.setTitle("巴赫E大调");
+        music.setHQMusicUrl("http://mattchenvip.viphk.ngrok.org/music/E.mp3");
+        music.setMusicUrl("http://mattchenvip.viphk.ngrok.org/music/E.mp3");
+        music.setThumbMediaId("homhALc07Injf4G4GwAVeegbV7pF9GQWoZUgHJc2hiNRV4p7yYQuUExNIjaMvJkm");
+
+        musicMessage.setMusic(music);
+        musicMessage.setMsgType(MessageUtil.MESSAGE_MUSIC);
+        musicMessage.setFromUserName(toUserName);
+        musicMessage.setToUserName(fromUserName);
+        musicMessage.setCreateTime(new Date().getTime());
+
+        return MessageUtil.musicToXML(musicMessage);
+    }
+
 
 }

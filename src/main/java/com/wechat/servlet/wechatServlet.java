@@ -46,6 +46,19 @@ public class wechatServlet extends HttpServlet {
 
             String message=null;
             PrintWriter out=resp.getWriter();
+            /*
+                关注返回欢迎信息
+
+                回复1或2返回一级与二级提示菜单
+                回复3返回一条图文消息列表，内可有多条消息：
+                    1.第一条消息展示标题，图片和描述
+                    2.其余消息展示标题和图片
+                    3.最多展示10条消息
+                回复4返回一条图片消息
+                回复5返回一条音乐消息
+                回复中文或英文问号返回提示目录
+                回复其他返回一条调侃信息
+             */
             if (MsgType.equals(MessageUtil.MESSAGE_TEXT)){
                 if (Content.equals("1")){
                     message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.firstMenu());
@@ -56,6 +69,9 @@ public class wechatServlet extends HttpServlet {
                     System.out.println(message);
                 }else if (Content.equals("4")){
                     message=MessageUtil.initImageMessage(ToUserName,FromUserName);
+                    System.out.println(message);
+                }else if (Content.equals("5")){
+                    message=MessageUtil.initMusicMessage(ToUserName,FromUserName);
                     System.out.println(message);
                 }else if (Content.equals("?") || Content.equals("？") ){
                     message=MessageUtil.initText(ToUserName,FromUserName,MessageUtil.menuText());
